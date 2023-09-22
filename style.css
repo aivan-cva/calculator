@@ -42,11 +42,17 @@ body {
   background-color: whitesmoke;
   height: 150px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: flex-end;
   padding: 20px;
   font-size: 3rem;
+  color: #152b36;
   border-radius: 16px 16px 0 0;
+}
+
+.operations {
+  font-size: 1.5rem;
+  color: var(--secondary);
 }
 
 .buttons-container {
@@ -59,6 +65,7 @@ body {
 
 #ac {
   border-radius: 0 0 0 16px;
+  font-family: "Russo One";
 }
 
 #plus {
