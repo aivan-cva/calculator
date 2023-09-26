@@ -1,24 +1,106 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+const buttons = document.querySelectorAll("button");
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+buttons.forEach((btn) => {
+  btn.addEventListener("click", (event) => {
+    let val = event.target.dataset;
+    if (val.char) {
+      handleChar(val.char);
+    } else {
+      handleNum(val.num);
+    }
+  });
+});
 
-setupCounter(document.querySelector('#counter'))
+const evaluateOperation = ({ a, b, operator }) => {
+  const numA = Number(a.join(""));
+  const numB = Number(b.join(""));
+
+  switch (operator) {
+    case "plus":
+      return numA + numB;
+    case "sub":
+      return numA - numB;
+    case "mult":
+      return numA * numB;
+    case "div":
+      return numA / numB;
+    default:
+      break;
+  }
+};
+
+let operation = {
+  a: [],
+  b: [],
+  operator: "",
+};
+
+const handleNum = (num) => {
+  let lenghtA = operation.a.length;
+
+  if (lenghtA === 0) {
+    operation.a.push(num);
+  }
+  if (lenghtA > 0 && operation.operator === "") {
+    operation.a.push(num);
+  }
+  if (lenghtA > 0 && operation.operator != "") {
+    operation.b.push(num);
+  }
+
+  console.log(operation.a, operation.b, operation.operator);
+};
+
+const handleChar = (char) => {
+  // debugger
+  console.log(char);
+  if (operation.a.length === 0 && operation.b.length === 0) {
+    console.log(operation.a, operation.b, operation.operator);
+    return;
+  }
+
+  if (char === "ac") {
+    operation = {
+      a: [],
+      b: [],
+      operator: "",
+    };
+    console.log(operation.a, operation.b, operation.operator);
+    return;
+  }
+
+  if (char === "equal") {
+    if (!operation.b) {
+      return;
+    }
+    if (operation.a && operation.b && operation.operator) {
+      const result = evaluateOperation(operation);
+      operation = {
+        a: result.toString().split(""),
+        b: [],
+        operator: "",
+      };
+      console.log(operation.a, operation.b, operation.operator);
+      return;
+    }
+  }
+
+  if (
+    operation.a.length > 0 &&
+    operation.b.length > 0 &&
+    operation.operator != ""
+  ) {
+    const result = evaluateOperation(operation);
+    operation = {
+      a: result.toString().split(""),
+      b: [],
+      operator: char,
+    };
+    console.log(operation.a, operation.b, operation.operator);
+    return;
+  }
+
+  operation.operator = char;
+  console.log(operation.a, operation.b, operation.operator);
+  return;
+};
