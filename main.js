@@ -1,4 +1,6 @@
 const buttons = document.querySelectorAll("button");
+const numbersDisplay = document.getElementById("numbers");
+const operationsDisplay = document.getElementById("operations");
 
 buttons.forEach((btn) => {
   btn.addEventListener("click", (event) => {
@@ -35,26 +37,52 @@ let operation = {
   operator: "",
 };
 
+const changeDisplay = () => {
+  const OPERATORS = {
+    plus: "+",
+    sub: "-",
+    div: "&#247;",
+    mult: "&#215;",
+  };
+
+  let firstNum = operation.a.join("");
+  let secondNum = operation.b.join("");
+  let oper = OPERATORS[operation.operator] || "";
+  let disp = `${firstNum} ${oper} ${secondNum}`;
+
+  console.log(disp);
+  numbersDisplay.innerHTML = disp;
+};
+
 const handleNum = (num) => {
   let lenghtA = operation.a.length;
 
   if (lenghtA === 0) {
     operation.a.push(num);
+    changeDisplay();
+    console.log(operation.a, operation.b, operation.operator);
+    return;
   }
   if (lenghtA > 0 && operation.operator === "") {
     operation.a.push(num);
+    changeDisplay();
+    console.log(operation.a, operation.b, operation.operator);
+    return;
   }
   if (lenghtA > 0 && operation.operator != "") {
     operation.b.push(num);
-  }
 
-  console.log(operation.a, operation.b, operation.operator);
+    changeDisplay();
+    console.log(operation.a, operation.b, operation.operator);
+    return;
+  }
 };
 
 const handleChar = (char) => {
   // debugger
   console.log(char);
   if (operation.a.length === 0 && operation.b.length === 0) {
+    changeDisplay();
     console.log(operation.a, operation.b, operation.operator);
     return;
   }
@@ -65,12 +93,14 @@ const handleChar = (char) => {
       b: [],
       operator: "",
     };
+    changeDisplay();
     console.log(operation.a, operation.b, operation.operator);
     return;
   }
 
   if (char === "equal") {
     if (!operation.b) {
+      changeDisplay();
       return;
     }
     if (operation.a && operation.b && operation.operator) {
@@ -80,6 +110,7 @@ const handleChar = (char) => {
         b: [],
         operator: "",
       };
+      changeDisplay();
       console.log(operation.a, operation.b, operation.operator);
       return;
     }
@@ -96,11 +127,13 @@ const handleChar = (char) => {
       b: [],
       operator: char,
     };
+    changeDisplay();
     console.log(operation.a, operation.b, operation.operator);
     return;
   }
 
   operation.operator = char;
+  changeDisplay();
   console.log(operation.a, operation.b, operation.operator);
   return;
 };
