@@ -37,6 +37,8 @@ let operation = {
   operator: "",
 };
 
+let endOfOperation = false;
+
 const changeDisplay = () => {
   const OPERATORS = {
     plus: "+",
@@ -56,6 +58,14 @@ const changeDisplay = () => {
 
 const handleNum = (num) => {
   let lenghtA = operation.a.length;
+  if (endOfOperation) {
+    operation = {
+      a: [],
+      b: [],
+      operator: "",
+    };
+    endOfOperation = false;
+  }
 
   if (lenghtA === 0) {
     operation.a.push(num);
@@ -80,6 +90,7 @@ const handleNum = (num) => {
 
 const handleChar = (char) => {
   // debugger
+  endOfOperation = false;
   console.log(char);
   if (operation.a.length === 0 && operation.b.length === 0) {
     changeDisplay();
@@ -94,13 +105,14 @@ const handleChar = (char) => {
       operator: "",
     };
     changeDisplay();
+
     console.log(operation.a, operation.b, operation.operator);
     return;
   }
 
   if (char === "equal") {
+    // debugger;
     if (!operation.b) {
-      changeDisplay();
       return;
     }
     if (operation.a && operation.b && operation.operator) {
@@ -110,6 +122,7 @@ const handleChar = (char) => {
         b: [],
         operator: "",
       };
+      endOfOperation = true;
       changeDisplay();
       console.log(operation.a, operation.b, operation.operator);
       return;
@@ -125,15 +138,14 @@ const handleChar = (char) => {
     operation = {
       a: result.toString().split(""),
       b: [],
-      operator: char,
+      operator: char === "equal" ? "" : char,
     };
     changeDisplay();
     console.log(operation.a, operation.b, operation.operator);
     return;
   }
 
-  operation.operator = char;
-  changeDisplay();
+  (operation.operator = char === "equal" ? "" : char), changeDisplay();
   console.log(operation.a, operation.b, operation.operator);
   return;
 };
