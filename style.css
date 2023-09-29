@@ -62,6 +62,19 @@ body {
   flex-wrap: wrap;
   width: 100%;
   font-family: "Fira Code";
+  flex-direction: row;
+}
+
+.numbers-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 75%;
+}
+
+.operators-container {
+  display: flex;
+  width: 25%;
+  flex-wrap: wrap;
 }
 
 #ac {
@@ -69,12 +82,21 @@ body {
   font-family: "Russo One";
 }
 
-#plus {
+#equal {
   border-radius: 0 0 16px 0;
 }
 
 .calc-btn {
-  width: 25%;
+  width: 100%;
+  height: auto;
+  border: none;
+  background-color: hsl(180, 44%, 17%);
+  color: white;
+  font-size: 1.3rem;
+}
+
+.calc-btn-r {
+  width: 100%;
   height: auto;
   border: none;
   background-color: hsl(180, 44%, 17%);
@@ -89,13 +111,15 @@ body {
 #division,
 #multiplication,
 #minus,
-#plus {
+#plus,
+#equal {
   background-color: hsl(201, 64%, 4%);
 }
 
 #division:hover,
 #multiplication:hover,
 #minus:hover,
-#plus:hover {
+#plus:hover,
+#equal:hover {
   background-color: hsla(201, 64%, 4%, 0.7);
 }
