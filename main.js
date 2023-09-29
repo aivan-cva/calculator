@@ -61,6 +61,28 @@ const changeDisplay = () => {
 const handleDecimal = (dec) => {
   console.log(dec);
 
+  if (endOfOperation) {
+    operation = {
+      a: [],
+      b: [],
+      operator: "",
+    };
+    endOfOperation = false;
+  }
+  if (operation.a.length === 0 && operation.operator === "") {
+    operation.a.push("0");
+    changeDisplay();
+  }
+
+  if (
+    operation.b.length === 0 &&
+    operation.a.length > 0 &&
+    operation.operator != ""
+  ) {
+    operation.b.push("0");
+    changeDisplay();
+  }
+
   if (operation.a.length > 0 && operation.operator === "") {
     if (operation.a.includes(".")) {
       return;
@@ -173,3 +195,48 @@ const handleChar = (char) => {
   console.log(operation.a, operation.b, operation.operator);
   return;
 };
+
+// Keyboard
+
+window.addEventListener("keydown", (event) => {
+  let val = event.key;
+  console.log(val);
+
+  if (Number(val) >= 0) {
+    handleNum(val);
+    return;
+  }
+
+  if (val === ".") {
+    handleDecimal(val);
+    return;
+  }
+
+  switch (val) {
+    case "+":
+      handleChar("plus");
+      return;
+    case "-":
+      handleChar("sub");
+      return;
+    case "/":
+      handleChar("div");
+      return;
+    case "*":
+      handleChar("mult");
+      return;
+    case "Enter":
+      handleChar("equal");
+      return;
+    case "=":
+      handleChar("equal");
+      return;
+    case "Backspace":
+      handleChar("ac");
+      return;
+    default:
+      break;
+  }
+
+  return;
+});
