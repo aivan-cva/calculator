@@ -7,8 +7,10 @@ buttons.forEach((btn) => {
     let val = event.target.dataset;
     if (val.char) {
       handleChar(val.char);
-    } else {
+    } else if (val.num) {
       handleNum(val.num);
+    } else {
+      handleDecimal(val.dec);
     }
   });
 });
@@ -54,6 +56,28 @@ const changeDisplay = () => {
 
   console.log(disp);
   numbersDisplay.innerHTML = disp;
+};
+
+const handleDecimal = (dec) => {
+  console.log(dec);
+
+  if (operation.a.length > 0 && operation.operator === "") {
+    if (operation.a.includes(".")) {
+      return;
+    } else {
+      operation.a.push(".");
+      changeDisplay();
+    }
+  }
+
+  if (operation.b.length > 0) {
+    if (operation.b.includes(".")) {
+      return;
+    } else {
+      operation.b.push(".");
+      changeDisplay();
+    }
+  }
 };
 
 const handleNum = (num) => {
